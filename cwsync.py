@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 
+print "Initializing: please wait"
 sync = None
 
 try:
@@ -11,7 +12,7 @@ try:
     import fcntl
     import os
     import autosync.constant as AC
-    
+
     def main():
         try:
             
@@ -29,20 +30,24 @@ try:
             sync.set_sync_source(options[1][0])
             sync.set_sync_destination(options[1][1])
         
-            is_started = sync.start_sync()
-            
-            if not is_started:
-                print "Error starting sync"
-                exit(1)
-            
+            #is_started = sync.start_sync()
+            #
+            #if not is_started:
+            #    print "Error starting sync"
+            #    exit(1)
+            print "Ready: you may (s)tart, (p)ause, or (q)uit"
             while 1:
                 try:
                     c = sys.stdin.read(1)
                     s = str(c)
                     
                     if s == 'p':
-                        sync.pause_sync()
-                        print "Paused"
+                        is_paused = sync.pause_sync()
+                        
+                        if is_paused:
+                            print "Paused"
+                        else:
+                            print "Could not pause"
                         print sync.sync_status
                     elif s == 's':
                         if sync.sync_status == AC.STATUS_IDLE:
@@ -58,7 +63,7 @@ try:
                     elif s == 't':
                         print sync.sync_status
                     elif s == 'q':
-                        sync.pause_sync()
+                        sync.pause_sync(True)
                         print 'Quit: goodbye'
                         exit()
                     else:
