@@ -66,6 +66,11 @@ try:
                         sync.pause_sync(True)
                         print 'Quit: goodbye'
                         exit()
+                    elif s == 'r':
+                        print "Reverse sync"
+                        is_reverse = sync.reverse_sync()
+                        if not is_reverse:
+                            print "Reverse sync cannot start"
                     else:
                         pass
                     
