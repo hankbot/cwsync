@@ -2,3 +2,15 @@
 .project
 
 .pydevproject
+
+*.pyc
+
+cwsync.egg-info/dependency_links.txt
+
+cwsync.egg-info/PKG-INFO
+
+cwsync.egg-info/requires.txt
+
+cwsync.egg-info/SOURCES.txt
+
+cwsync.egg-info/top_level.txt
