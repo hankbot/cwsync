@@ -8,17 +8,22 @@ try:
     
     import autosync.util
     import autosync.constant as AC
-    import optparse
+    import argparse
     import os
     import time
     import termios
     import fcntl
 
     def main():
-        try:
-            
-            options = parse_options()
         
+        parser = argparse.ArgumentParser()
+        
+        parser.add_argument("source", help="The source file path to be synchronized to the destination. Source should be a local path.")
+        parser.add_argument("destination", help="The destination file path to be synchronized with the source. Destination path may be formatted using any form accepted by rsync.")
+        
+        args = parser.parse_args()
+        
+        try:
             fd = sys.stdin.fileno()
             oldterm = termios.tcgetattr(fd)
             newattr = termios.tcgetattr(fd)
@@ -28,14 +33,7 @@ try:
             fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
             
             sync = autosync.util.fsevent_sync()
-            sync.set_sync_source(options[1][0])
-            sync.set_sync_destination(options[1][1])
-        
-            #is_started = sync.start_sync()
-            #
-            #if not is_started:
-            #    print "Error starting sync"
-            #    exit(1)
+           
             print "Ready: you may (s)tart, (p)ause, (r)everse sync to source, or (q)uit"
             while 1:
                 try:
