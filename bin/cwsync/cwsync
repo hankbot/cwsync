@@ -33,6 +33,8 @@ try:
             fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
             
             sync = autosync.util.fsevent_sync()
+            sync.set_sync_source(args.source)
+            sync.set_sync_destination(args.destination)
            
             print "Ready: you may (s)tart, (p)ause, (r)everse sync to source, or (q)uit"
             while 1:
